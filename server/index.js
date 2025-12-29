@@ -1,13 +1,24 @@
 import express from "express";
 import dotenv from "dotenv"
-dotenv.config();
+import mongoose from "mongoose";
 
+dotenv.config();
 
 
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
+
+const connectDB = async ()=>{
+    try{
+    const conn = await mongoose.connect(process.env.MONGO_URL);
+    if(conn){
+        console.log("MongoDB connected⭐");
+    }}catch(err)
+{
+    console.log("mongodb crashed❌",err)
+}}
 
 app.get('/',(req,res)=>{
    res.json({
@@ -18,4 +29,5 @@ app.get('/',(req,res)=>{
 
 app.listen(PORT,()=>{
     console.log(`server is running on port ${PORT}😊`);
+    connectDB();
 })
