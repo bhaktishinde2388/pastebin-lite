@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv"
 import mongoose from "mongoose";
+import pasteRoutes from "./routes/pasteRoutes.js";
+
 
 dotenv.config();
 
@@ -9,6 +11,15 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT
+
+app.get('/health',(req,res)=>{
+   res.json({
+    success:true,
+    message:"API is running...✅✅✅✅"}); 
+})
+
+
+app.use("/api", pasteRoutes);
 
 const connectDB = async ()=>{
     try{
@@ -20,11 +31,6 @@ const connectDB = async ()=>{
     console.log("mongodb crashed❌",err)
 }}
 
-app.get('/',(req,res)=>{
-   res.json({
-    success:true,
-    message:"API is running...✅✅✅✅"}); 
-})
 
 
 app.listen(PORT,()=>{
