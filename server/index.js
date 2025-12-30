@@ -12,13 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT
-
-// app.get('/health',(req,res)=>{
-//    res.json({
-//     success:true,
-//     message:"API is running...✅✅✅✅"}); 
-// })
+const PORT = process.env.PORT || 1051
 
 
 app.use("/api", pasteRoutes);
