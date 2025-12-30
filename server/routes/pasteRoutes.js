@@ -55,6 +55,39 @@ router.post("/pastes", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+// paste by id............
+router.get("/pastes/:id", async (req, res) => {
+  try {
+    const paste = await Paste.findOne({ pasteId: req.params.id });
+
+    if (!paste) {
+      return res.status(404).json({ error: "Paste not found" });
+    }
+
+    const now = getCurrentTime(req);
+
+    if (paste.expiresAt && now > paste.expiresAt) {
+      return res.status(404).json({ error: "Paste expired" });
+    }
+
+    if (paste.remainingViews !== null) {
+      if (paste.remainingViews <= 0) {
+        return res.status(404).json({ error: "View limit exceeded" });
+      }
+      paste.remainingViews -= 1;
+      await paste.save();
+    }
+
+    res.json({
+      content: paste.content,
+      remaining_views: paste.remainingViews,
+      expires_at: paste.expiresAt,
+    });
+  } catch {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 
 export default router;
