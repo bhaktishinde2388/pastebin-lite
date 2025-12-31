@@ -8,7 +8,7 @@ export default function ViewPaste() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:1051/api/pastes/${id}`)
+    axios.get(`https://pastebin-lite-backend-9oih.onrender.com/api/pastes/${id}`)
       .then(res => setPaste(res.data))
       .catch(err => setError(err.response?.data?.error || "Error"));
   }, [id]);

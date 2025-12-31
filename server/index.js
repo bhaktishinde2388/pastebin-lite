@@ -14,6 +14,9 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 1051
 
+app.get('/health', (req, res) => {
+   res.json({ success: true, message: "API is running...✅✅✅✅" });
+});
 
 app.use("/api", pasteRoutes);
 

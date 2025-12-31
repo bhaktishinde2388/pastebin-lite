@@ -7,7 +7,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:1051/api/pastes", { content });
+    const res = await axios.post("https://pastebin-lite-backend-9oih.onrender.com/api/pastes", { content });
     setUrl(res.data.url);
   };
 
