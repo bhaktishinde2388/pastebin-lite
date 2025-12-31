@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "./Home.css"
 
 export default function Home() {
   const [content, setContent] = useState("");
