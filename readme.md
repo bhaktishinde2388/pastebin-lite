@@ -11,11 +11,4 @@ After applying this code, your app will:
 ✔️ Be serverless-safe  
 ✔️ Meet all repository checks  
 
----
 
-If you want, next I can:
-- 🔁 Convert this to **Next.js API routes**
-- 🧪 Simulate **grader test cases**
-- 🔍 Review your **existing repo line-by-line**
-
-Just say the word.
