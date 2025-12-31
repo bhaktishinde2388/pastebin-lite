@@ -35,46 +35,48 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h1>Create Paste</h1>
+    <div className="home-wrapper">
+      <div className="home-card">
+        <h1 className="home-title">Create Paste</h1>
 
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Enter paste content"
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Enter paste content"
+            required
+          />
 
-        <input
-          type="number"
-          min="1"
-          placeholder="TTL in seconds"
-          value={ttl}
-          onChange={(e) => setTtl(e.target.value)}
-        />
+          <input
+            type="number"
+            min="1"
+            placeholder="TTL in seconds"
+            value={ttl}
+            onChange={(e) => setTtl(e.target.value)}
+          />
 
-        <input
-          type="number"
-          min="1"
-          placeholder="Max views"
-          value={maxViews}
-          onChange={(e) => setMaxViews(e.target.value)}
-        />
+          <input
+            type="number"
+            min="1"
+            placeholder="Max views"
+            value={maxViews}
+            onChange={(e) => setMaxViews(e.target.value)}
+          />
 
-        <button type="submit">Create</button>
-      </form>
+          <button type="submit">Create</button>
+        </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
-      {url && (
-        <p>
-          Shareable URL:{" "}
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            {url}
-          </a>
-        </p>
-      )}
+        {url && (
+          <p className="url-message">
+            Shareable URL:{" "}
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {url}
+            </a>
+          </p>
+        )}
+      </div>
     </div>
   );
 }

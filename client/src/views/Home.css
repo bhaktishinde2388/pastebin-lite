@@ -1,5 +1,3 @@
-/* Home.css */
-
 /* Page background */
 body {
   font-family: 'Arial', sans-serif;
@@ -8,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px; /* for small screens */
 }
 
 /* Card container */
@@ -15,7 +14,8 @@ form {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 15px;
   padding: 30px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px; /* keeps layout same but adapts to smaller screens */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -91,4 +91,25 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  form {
+    padding: 20px;
+  }
+
+  textarea {
+    height: 120px;
+    font-size: 14px;
+  }
+
+  input[type="number"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
