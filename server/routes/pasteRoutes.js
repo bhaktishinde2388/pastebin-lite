@@ -1,6 +1,6 @@
 import express from "express";
 import { nanoid } from "nanoid";
-import Paste from "../models/Paste.js";
+import Paste from "../models/paste.js";
 import getCurrentTime from "../utils/getCurrentTime.js";
 
 const router = express.Router();
