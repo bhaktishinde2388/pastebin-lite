@@ -49,7 +49,7 @@ router.post("/pastes", async (req, res) => {
 
     res.status(201).json({
       id: pasteId,
-      url: `https://pastebin-lite-ui.onrender.com/p/${pasteId}`,
+      url: `https://pastebin-lite-ui.onrender.com/p/${pasteId}`
     });
   } catch {
     res.status(500).json({ error: "Server error" });
