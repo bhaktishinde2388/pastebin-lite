@@ -2,6 +2,7 @@ import express from "express";
 import { nanoid } from "nanoid";
 import Paste from "../models/paste.js";
 import getCurrentTime from "../utils/getCurrentTime.js";
+import escapeHtml from "escape-html";
 
 const router = express.Router();
 // ..................health chek api
@@ -58,30 +59,33 @@ router.post("/pastes", async (req, res) => {
 // paste by id............
 router.get("/pastes/:id", async (req, res) => {
   try {
-    const paste = await Paste.findOne({ pasteId: req.params.id });
+    const now = getCurrentTime(req);
+
+    const paste = await Paste.findOneAndUpdate(
+      {
+        pasteId: req.params.id,
+        $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date(now) } }],
+        $or: [
+          { remainingViews: null },
+          { remainingViews: { $gt: 0 } }
+        ],
+      },
+      {
+        $inc: { remainingViews: -1 }
+      },
+      { new: true }
+    );
 
     if (!paste) {
       return res.status(404).json({ error: "Paste not found" });
     }
 
-    const now = getCurrentTime(req);
-
-    if (paste.expiresAt && now > paste.expiresAt) {
-      return res.status(404).json({ error: "Paste expired" });
-    }
-
-    if (paste.remainingViews !== null) {
-      if (paste.remainingViews <= 0) {
-        return res.status(404).json({ error: "View limit exceeded" });
-      }
-      paste.remainingViews -= 1;
-      await paste.save();
-    }
-
     res.json({
       content: paste.content,
       remaining_views: paste.remainingViews,
-      expires_at: paste.expiresAt,
+      expires_at: paste.expiresAt
+        ? paste.expiresAt.toISOString()
+        : null,
     });
   } catch {
     res.status(500).json({ error: "Server error" });
@@ -89,5 +93,43 @@ router.get("/pastes/:id", async (req, res) => {
 });
 
 
+
+
+router.get("/p/:id", async (req, res) => {
+  try {
+    const now = getCurrentTime(req);
+
+    const paste = await Paste.findOneAndUpdate(
+      {
+        pasteId: req.params.id,
+        $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date(now) } }],
+        $or: [
+          { remainingViews: null },
+          { remainingViews: { $gt: 0 } }
+        ],
+      },
+      {
+        $inc: { remainingViews: -1 }
+      },
+      { new: true }
+    );
+
+    if (!paste) {
+      return res.status(404).send("Not found");
+    }
+
+    res.send(`
+      <!doctype html>
+      <html>
+        <head><meta charset="utf-8"></head>
+        <body>
+          <pre>${escapeHtml(paste.content)}</pre>
+        </body>
+      </html>
+    `);
+  } catch {
+    res.status(500).send("Server error");
+  }
+});
 
 export default router;

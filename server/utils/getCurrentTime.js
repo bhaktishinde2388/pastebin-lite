@@ -1,11 +1,11 @@
 const getCurrentTime = (req) => {
-  if (process.env.TEST_MODE === "1") {
-    const fakeTime = req.headers["x-test-now-ms"];
-    if (fakeTime) {
-      return new Date(Number(fakeTime));
-    }
+  if (
+    process.env.TEST_MODE === "1" &&
+    req.headers["x-test-now-ms"]
+  ) {
+    return Number(req.headers["x-test-now-ms"]);
   }
-  return new Date();
+  return Date.now();
 };
 
 export default getCurrentTime;
